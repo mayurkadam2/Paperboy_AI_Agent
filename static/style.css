@@ -1,0 +1,367 @@
+/* ==========================================================================
+   Paperboy AI Agent - Styling
+   Preserves custom card colors, provides sticky topbar, 2-column grid,
+   and pinned bottom search bar.
+   ========================================================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── 1. Sticky Top Title Bar ─────────────────────────────────────────────── */
+.topbar-container {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #ffffff;
+  border-bottom: 1px solid rgba(79, 79, 255, 0.2);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+  padding: 0.75rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topbar-left {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+/* Logo: Plain Text (Not a Button) */
+.logo-text {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.4px;
+  cursor: pointer;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topbar-center {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+}
+
+.datetime-badge {
+  font-size: 0.88rem;
+  color: #475569;
+  font-weight: 500;
+  padding: 0.4rem 1.1rem;
+  background: rgba(247, 247, 255, 0.08);
+  border: 1px solid rgba(79, 79, 255, 0.18);
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.topbar-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-refresh {
+  background: #ffffff;
+  color: #1e293b;
+  border: 1px solid rgba(79, 79, 255, 0.35);
+  border-radius: 50%;
+  padding: 0.5rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  
+}
+
+.btn-refresh:hover {
+  background: rgba(79, 79, 255, 0.08);
+  border-color: rgba(79, 79, 255, 0.85);
+}
+
+/* ── Main Layout Viewport ────────────────────────────────────────────────── */
+.main-container {
+  flex: 1;
+  max-width: 1250px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 7rem 1.5rem;
+}
+
+/* ── Feed Section ────────────────────────────────────────────────────────── */
+.feed-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1.25rem;
+}
+
+.feed-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.feed-count {
+  font-size: 0.88rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* 2-Column Balanced Grid: No Odd Right Space */
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .news-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── News Card: Preserving Custom Color Styles ───────────────────────────── */
+.news-card {
+  background-color: rgb(252, 252, 252);
+  border: 1px solid rgba(79, 79, 255, 0.85);
+  border-radius: 10px;
+  padding: 1.25rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 190px;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  box-sizing: border-box;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.news-card:hover {
+  cursor: pointer;
+  border-color: rgba(99, 102, 241, 0.5);
+  box-shadow: 0 2px 18px rgba(0, 0, 0, 0.08);
+  
+}
+
+.news-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #121212;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.news-content {
+  font-size: 0.92rem;
+  color: #292929;
+  line-height: 1.6;
+  margin-bottom: 0.85rem;
+  flex-grow: 1;
+}
+
+.news-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  margin-top: auto;
+}
+
+.news-source-tag {
+  background-color: rgba(217, 220, 255, 0.15);
+  color: #000670;
+  padding: 0.22rem 0.65rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.78rem;
+}
+
+.news-link-btn {
+  color: #38bdf8;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.15s ease;
+}
+
+.news-link-btn:hover {
+  color: #7dd3fc;
+  text-decoration: underline;
+}
+
+/* ── Response Section ────────────────────────────────────────────────────── */
+.response-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.btn-back {
+  background: #ffffff;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-back:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+.response-query-tag {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1rem;
+  gap: 1.2rem;
+}
+
+.spinner {
+  width: 42px;
+  height: 42px;
+  border: 4px solid rgba(79, 79, 255, 0.15);
+  border-top-color: rgba(79, 79, 255, 0.85);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  font-size: 1rem;
+  color: #475569;
+  font-weight: 500;
+}
+
+.response-card {
+  background: #ffffff;
+  border: 1px solid rgba(79, 79, 255, 0.35);
+  border-radius: 12px;
+  padding: 1.8rem 2rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+.response-body {
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: #1e293b;
+}
+
+.response-body h1, .response-body h2, .response-body h3 {
+  margin-top: 1.2rem;
+  margin-bottom: 0.6rem;
+  color: #0f172a;
+}
+
+.response-body p {
+  margin-bottom: 0.85rem;
+}
+
+.response-body ul, .response-body ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.response-body a {
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+/* ── 3. Bottom Pinned Search Bar ─────────────────────────────────────────── */
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(79, 79, 255, 0.2);
+  padding: 0.85rem 1.5rem;
+  display: flex;
+  justify-content: center;
+  z-index: 1000;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.search-form {
+  max-width: 850px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1.5px solid rgba(79, 79, 255, 0.4);
+  border-radius: 28px;
+  padding: 0.3rem 0.6rem 0.3rem 1.2rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-form:focus-within {
+  border-color: rgba(79, 79, 255, 0.85);
+  box-shadow: 0 0 0 3px rgba(79, 79, 255, 0.15);
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 0.95rem;
+  color: #1e293b;
+  background: transparent;
+  padding: 0.4rem 0;
+}
+
+.search-input::placeholder {
+  color: #94a3b8;
+}
+
+.btn-search {
+  background: rgba(79, 79, 255, 0.85);
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btn-search:hover {
+  background: #3b3fe4;
+  transform: scale(1.05);
+}

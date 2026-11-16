@@ -1,0 +1,113 @@
+PAPERBOY AI AGENT - COMPLETE ARCHITECTURE & FLOW DOCUMENT
+=========================================================
+Generated: 2026-11-16
+AI Runtime: Google Gemini API (with Native Function Calling & Multi-Turn Conversation)
+Frontend: Vanilla JavaScript (HTML5 / CSS3)
+Backend: Python Standard Library (ThreadingHTTPServer)
+
+
+================================================================
+SECTION 1 - PROJECT STRUCTURE
+================================================================
+
+Paperboy_AI_Agent/
+├── server.py           Entry point. Runs ThreadingHTTPServer on 127.0.0.1:8000.
+│                       Serves static assets and provides REST API routes.
+├── config.py           Configuration layer. Loads .env file, stores RSS feeds,
+│                       server port, and reads GEMINI_API_KEY / GEMINI_MODEL.
+├── rss_service.py      RSS parsing and normalization using Feedparser across 7 trusted sources:
+│                       BBC Tech, BBC World, TechCrunch, The Verge, Ars Technica, Wired, NPR.
+├── ai_service.py       Gemini AI Agent Core.
+│                       - Declares Gemini Tools: update_feed, personalize_feed, summarize_feed.
+│                       - Injects real-time news articles into Gemini System Instruction.
+│                       - Supports multi-turn conversation and counter-questions.
+│                       - Executes function calls and updates working news cache.
+├── storage_service.py  Persistence layer. Centralized I/O for:
+│                       - data/news_cache.json (active working dataset)
+│                       - data/raw_news_cache.json (original unpersonalized RSS baseline)
+├── static/
+│   ├── index.html      Modern UI structure: Sticky header, 2-column feed grid, pinned search.
+│   ├── style.css       Preserves custom styles: borders, source tags, colors, responsiveness.
+│   └── app.js          Vanilla JS layer: Live clock, multi-turn conversation UI, tool triggers.
+├── data/
+│   ├── news_cache.json     Current working news dataset.
+│   └── raw_news_cache.json Baseline RSS data (never lost during personalization).
+├── .env.example        Template for environment variables.
+├── .gitignore          Excludes .env, local cache files, and __pycache__.
+└── flow.txt            This architecture & flow reference.
+
+
+================================================================
+SECTION 2 - GEMINI API INTEGRATION & NATIVE TOOLS
+================================================================
+
+The agent uses the Google Gemini API with native function calling:
+
+1. TOOLS DECLARED TO GEMINI:
+   - `update_feed()`:
+     Triggered when user explicitly requests to refresh, update, fetch latest, or reload news.
+     Invokes rss_service.fetch_and_parse_feeds(), updates news_cache.json and raw_news_cache.json.
+   - `personalize_feed(topic)`:
+     Triggered when user requests to filter, customize, or personalize news on a specific topic.
+     Filters the working dataset in news_cache.json directly while preserving raw_news_cache.json.
+   - `summarize_feed()`:
+     Triggered when user requests a news briefing or overall summary of today's headlines.
+
+2. CONVERSATION & COUNTER-QUESTIONS:
+   - When a user asks a question (e.g. "What happened with GTA 6?"):
+     Gemini reads the articles injected into the system prompt and generates an accurate, cited answer.
+   - When a user asks follow-up/counter-questions (e.g. "Why was he in a hospital?"):
+     The frontend sends the conversation history, allowing Gemini to understand pronouns, context,
+     and answer seamlessly.
+   - If a counter-question requires a tool (e.g. "Can you filter the feed for cybercrime now?"):
+     Gemini automatically calls `personalize_feed(topic="cybercrime")`, filters the feed, and confirms.
+
+
+================================================================
+SECTION 3 - USER INTERACTION FLOWS
+================================================================
+
+1. FEED VIEW (Initial State):
+   - Browser requests GET /api/news.
+   - Server reads data/news_cache.json.
+   - 2-Column responsive grid displays up to 20 news cards with bold title, summary, source tag,
+     and full-card click-through to original articles.
+   - Live date & time updates every second in topbar.
+   - Zero auto-refresh. The feed remains stable.
+
+2. MANUAL REFRESH:
+   - User clicks "Refresh Feed" in topbar.
+   - POST /api/refresh executes update_feed().
+   - Fetches fresh stories across 7 sources, sorts by recency, updates data/news_cache.json.
+   - Grid updates immediately.
+
+3. CONVERSATIONAL SEARCH & TOOL CALLING:
+   - User types question or command in bottom bar.
+   - App switches to conversation view.
+   - User's message and history are sent to POST /api/search.
+   - Gemini decides:
+     * If tool needed: triggers tool, updates working cache if needed, responds conversationally.
+     * If question/counter-question: answers directly using news feed context.
+   - If feed was updated, a one-click pill button "View Updated Feed" appears in the conversation
+     so user can inspect the personalized/refreshed feed at any time.
+
+
+================================================================
+SECTION 4 - CONFIGURATION (HOW TO SET YOUR GEMINI API KEY)
+================================================================
+
+1. Create a `.env` file in the project root:
+   ```env
+   GEMINI_API_KEY=AIzaSy...your_actual_key_here
+   GEMINI_MODEL=gemini-2.5-flash
+   ```
+
+2. Start the server:
+   ```bash
+   python server.py
+   ```
+
+3. Open in browser:
+   ```
+   http://127.0.0.1:8000
+   ```

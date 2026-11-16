@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paperboy AI - Autonomous News Assistant</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css" integrity="sha512-x9WwyMYBnlXMNQ6kQ/Lyzu1NqIhLQKL5Oq6xByfXuRj7s9CskyCbLv/1IjqzJmXwFXWr0ov6jBV7Qbc0hh9nHg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+</head>
+<body>
+
+  <!-- ===================================================================== -->
+  <!-- 1. Sticky Top Title Bar                                               -->
+  <!-- Left: Logo Text | Middle: Live Date & Time | Right: Refresh Button    -->
+  <!-- ===================================================================== -->
+  <header class="topbar-container" id="topbar">
+    <div class="topbar-left">
+      <div class="logo-text" id="logoText">Paperboy AI</div>
+    </div>
+    <div class="topbar-center">
+      <div class="datetime-badge" id="liveDateTime">🕒 Loading date...</div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn-refresh" id="btnRefresh" title="Fetch latest news and return to initial feed">
+        <span class="refresh-icon"><i class="fa-solid fa-arrow-rotate-left"></i></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- Main Content Viewport                                                 -->
+  <!-- Contains Feed Section and Search / Chat Response Section              -->
+  <!-- ===================================================================== -->
+  <main class="main-container">
+
+    <!-- ── Feed Section (Initial State) ────────────────────────────────── -->
+    <section class="feed-section" id="feedSection">
+      <div class="feed-header">
+        <h2 class="feed-title">Top Headlines</h2>
+        <span class="feed-count" id="feedCount">Loading stories...</span>
+      </div>
+
+      <!-- 2-Column Balanced Grid of News Cards -->
+      <div class="news-grid" id="newsGrid">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- ── Search / Chat Response Section (Vanished by default) ────────── -->
+    <section class="response-section" id="responseSection" style="display: none;">
+      <div class="response-header">
+        <button class="btn-back" id="btnBack">← Back to News Feed</button>
+        <div class="response-query-tag" id="responseQueryTag">Searching...</div>
+      </div>
+
+      <!-- Loading State (Appears when search is triggered) -->
+      <div class="loading-container" id="loadingContainer">
+        <div class="spinner"></div>
+        <div class="loading-text">Analyzing news feed and preparing answer with AI agent...</div>
+      </div>
+
+      <!-- Answer Content Box (Appears when AI finishes) -->
+      <div class="response-card" id="responseCard" style="display: none;">
+        <div class="response-body" id="responseBody"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- 3. Bottom Search Bar (Fixed at bottom)                                -->
+  <!-- ===================================================================== -->
+  <footer class="bottom-bar">
+    <form class="search-form" id="searchForm">
+      <input
+        type="text"
+        id="searchInput"
+        class="search-input"
+        placeholder="Search news or ask Paperboy (e.g., 'AI budget', 'Job Openings Today')..."
+        autocomplete="off"
+        required
+      />
+      <button type="submit" class="btn-search" title="Submit Search / Ask AI">
+        <span>➤</span>
+      </button>
+    </form>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
